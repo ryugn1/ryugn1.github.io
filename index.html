@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekap Pick Angka dengan Kunci Akses dan Tema</title>
+    <style>
+        /* Untuk body agar tampil di tengah dan responsif */
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+            transition: background-color 0.5s ease;
+        }
+
+        /* Style utama untuk container */
+        .container {
+            max-width: 400px; /* Lebar maksimum kontainer */
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 20px; /* Padding lebih kecil */
+            text-align: center;
+            background-color: white;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            position: relative;
+        }
+
+        /* Efek transisi untuk tombol dan elemen lainnya */
+        h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        textarea, input[type="text"], input[type="number"] {
+            width: calc(100% - 20px); /* Lebar input */
+            padding: 10px; /* Padding lebih kecil */
+            font-size: 14px; /* Ukuran font lebih kecil */
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+            background-color: #fafafa;
+            box-sizing: border-box; /* Untuk menghindari overflow */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Efek transisi */
+        }
+
+        textarea:focus, input[type="text"]:focus, input[type="number"]:focus {
+            border-color: #28a745; /* Warna border saat fokus */
+            box-shadow: 0 0 5px rgba(40, 167, 69, 0.5); /* Efek bayangan saat fokus */
+            outline: none; /* Menghilangkan outline default */
+        }
+
+        button {
+            width: 100%;
+            background-color: #28a745;
+            color: white;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .result {
+            margin-top: 20px; /* Jarak lebih kecil */
+            text-align: left;
+        }
+
+        .result-item {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* Input untuk kunci */
+        #keyInputContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        #keyInputContainer input {
+            margin-bottom: 10px;
+            width: 100%; /* Menggunakan lebar penuh */
+        }
+
+        #alert {
+            color: red;
+            font-size: 14px;
+        }
+
+        /* Style untuk dropdown tema */
+        .theme-selector {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* Tema khusus */
+        .modern {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .futuristic {
+            background-color: #1d1f27;
+            color: #00ffcc;
+        }
+
+        .tradisional {
+            background-color: #fff8e1;
+            color: #6d4c41;
+        }
+
+        /* Tema hitam-putih yang lebih keren */
+        .hitam-putih {
+            background-color: #000;
+            color: #fff;
+            border: 2px solid #fff;
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+        }
+
+        .hitam-putih textarea,
+        .hitam-putih input[type="text"],
+        .hitam-putih input[type="number"] {
+            background-color: #222;
+            color: #fff;
+            border: 1px solid #444;
+        }
+
+        .hitam-putih button {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .hitam-putih button:hover {
+            background-color: #555;
+        }
+
+        .hitam-putih .result-item {
+            background-color: #222;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="appContainer">
+        <h2>Rekap Pick</h2>
+
+        <!-- Form Input untuk Kunci -->
+        <div id="keyInputContainer">
+            <input type="text" id="keyInput" placeholder="Masukkan kunci akses">
+            <button onclick="checkKey()">Submit Kunci</button>
+            <p id="alert"></p>
+        </div>
+
+        <!-- Pilihan Tema -->
+        <select id="themeSelector" class="theme-selector" onchange="changeTheme()">
+            <option value="modern">Modern</option>
+            <option value="futuristic">Futuristic</option>
+            <option value="tradisional">Tradisional</option>
+            <option value="hitam-putih">Hitam Putih</option>
+        </select>
+
+        <!-- Formulir Input Angka dan Persentase -->
+        <textarea id="inputText" placeholder="Masukkan list pick" disabled></textarea>
+        <input type="number" id="percentage" placeholder="Masukkan persentase (%)" step="0.01" value="10" disabled>
+        <button id="rekapButton" onclick="rekapAngka()" disabled>Hitung</button>
+
+        <div class="result" id="resultContainer">
+            <p>Hasil:</p>
+        </div>
+    </div>
+
+    <script>
+        let validKey = null;
+
+        // Fungsi untuk mengambil dan memvalidasi kunci dari URL eksternal
+        async function checkKey() {
+            let inputKey = document.getElementById("keyInput").value;
+            let alertElement = document.getElementById("alert");
+
+            try {
+                // Ambil file JSON dari URL
+                let response = await fetch('https://raw.githubusercontent.com/ryugn1/ryugn1/refs/heads/main/rekap.json');
+                let data = await response.json();
+
+                // Log untuk melihat data yang diambil
+                console.log('Data dari JSON:', data);
+
+                // Bandingkan kunci yang dimasukkan dengan kunci dari JSON
+                if (inputKey === data.key) {
+                    validKey = inputKey;
+                    alertElement.textContent = "Kunci valid! Akses diizinkan.";
+                    alertElement.style.color = "green";
+
+                    // Aktifkan fitur
+                    document.getElementById("inputText").disabled = false;
+                    document.getElementById("percentage").disabled = false;
+                    document.getElementById("rekapButton").disabled = false;
+                    document.getElementById("keyInputContainer").style.display = 'none';
+                } else {
+                    alertElement.textContent = "Kunci tidak valid! Coba lagi.";
+                    alertElement.style.color = "red";
+                }
+            } catch (error) {
+                console.error("Error fetching the key:", error);
+                alertElement.textContent = "Gagal memuat kunci. Periksa koneksi atau URL.";
+                alertElement.style.color = "red";
+            }
+        }
+
+        function rekapAngka() {
+            let text = document.getElementById("inputText").value;
+            let percentage = document.getElementById("percentage").value;
+            let resultContainer = document.getElementById("resultContainer");
+            resultContainer.innerHTML = "<p>Hasil:</p>";  // Reset hasil sebelumnya
+
+            let lines = text.split('\n');  // Memisahkan input berdasarkan baris
+            
+            lines.forEach(line => {
+                let numbers = line.match(/\d+/g);  // Mencari angka dalam setiap baris
+                
+                if (numbers) {
+                    numbers.forEach(num => {
+                        let multiplied = num * 2;
+                        let result = multiplied - (multiplied * (percentage / 100));  // Gunakan persentase dari input
+
+                        // Format angka dengan pemisah ribuan dan hilangkan nol di belakang koma
+                        let formattedNum = formatRibuan(num);
+                        let formattedResult = formatRibuan(hapusNolBelakang(result.toFixed(2)));
+
+                        // Tampilkan angka asli dan hasil dengan format "angka asli/hasil"
+                        line = line.replace(num, `${formattedNum}/${formattedResult}`);
+                    });
+                }
+
+                // Tampilkan baris yang telah dimodifikasi
+                let resultItem = document.createElement("div");
+                resultItem.classList.add("result-item");
+                resultItem.textContent = line;
+                resultContainer.appendChild(resultItem);
+            });
+        }
+
+        // Fungsi untuk menambahkan titik sebagai pemisah ribuan
+        function formatRibuan(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        // Fungsi untuk menghapus nol di belakang koma
+        function hapusNolBelakang(number) {
+            return parseFloat(number).toString();  // Menghapus trailing zeros
+        }
+
+        // Fungsi untuk mengganti tema
+        function changeTheme() {
+            let theme = document.getElementById("themeSelector").value;
+            let appContainer = document.getElementById("appContainer");
+
+            document.body.className = '';  // Reset kelas tema body
+            appContainer.className = 'container';  // Reset kelas container
+
+            switch (theme) {
+                case "modern":
+                    appContainer.classList.add("modern");
+                    document.body.style.backgroundColor = '#f5f5f5';
+                    break;
+                case "futuristic":
+                    appContainer.classList.add("futuristic");
+                    document.body.style.backgroundColor = '#1d1f27';
+                    break;
+                case "tradisional":
+                    appContainer.classList.add("tradisional");
+                    document.body.style.backgroundColor =
+ '#fff8e1';
+                    break;
+                case "hitam-putih":
+                    appContainer.classList.add("hitam-putih");
+                    document.body.style.backgroundColor = '#000';
+                    break;
+            }
+        }
+    </script>
+
+</body>
+</html>
