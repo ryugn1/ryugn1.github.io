@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top-Up Center with Loading Screen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&family=Monoton&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background with gradient animation -->
+    <div class="background"></div>
+
+    <div class="loading">
+        <div class="honeycomb animate__animated animate__bounceInDown">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <div class="main-content animate__animated animate__fadeIn">
+        <h1 class="text-5xl mb-4 text-center text-yellow-400 drop-shadow-lg font-bold">Naf Points</h1>
+        <p class="text-center mb-8 text-lg font-bold text-gray-300">Situs top-up termurah, teraman, dan terpercaya!!</p>
+
+        <section>
+            <h2 class="text-3xl mb-4 text-start text-yellow-300 font-bold">Game</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-8">
+                <!-- Game Cards -->
+                <div class="bg-gray-700 p-4 rounded-lg game-card">
+                    <img alt="Logo of Mobile Legends" class="rounded-lg mb-2 h-32 w-32 object-cover mx-auto" src="https://cdn1.codashop.com/S/content/mobile/images/product-tiles/MLBB-tile-codacash-new.jpg" loading="lazy" />
+                    <h2 class="text-center text-lg font-bold">Mobile Legends</h2>
+                    <p class="text-center game-description">Bergabunglah dalam pertempuran epik 5v5 dan buktikan keahlianmu dalam mengatur strategi dan menggulung lawan!</p>
+                    <button aria-label="Top Up Mobile Legends" class="mt-2 bg-yellow-400 text-gray-900 py-1 px-2 rounded w-full hover:bg-yellow-500 hover:shadow-lg" onclick="confirmTopUp('Mobile Legends')">Top Up</button>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg game-card">
+                    <img alt="Logo of Free Fire" class="rounded-lg mb-2 h-32 w-32 object-cover mx-auto" src="https://cdn1.codashop.com/S/content/mobile/images/product-tiles/free-fire-tile-codacash-new.jpg" loading="lazy" />
+                    <h2 class="text-center text-lg font-bold">Free Fire</h2>
+                    <p class="text-center game-description">Bertahan hidup di medan perang yang penuh tantangan dengan teman-temanmu. Siap untuk aksi seru?</p>
+                    <button aria-label="Top Up Free Fire" class="mt-2 bg-yellow-400 text-gray-900 py-1 px-2 rounded w-full hover:bg-yellow-500 hover:shadow-lg" onclick="confirmTopUp('Free Fire')">Top Up</button>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg game-card">
+                    <img alt="Logo of Genshin Impact" class="rounded-lg mb-2 h-32 w-32 object-cover mx-auto" src="https://cdn1.codashop.com/S/content/mobile/images/product-tiles/genshinimpact_tile.jpg" loading="lazy" />
+                    <h2 class="text-center text-lg font-bold">Genshin Impact</h2>
+                    <p class="text-center game-description">Jelajahi dunia Teyvat yang memukau, penuh dengan petualangan dan karakter unik untuk ditemukan!</p>
+                    <button aria-label="Top Up Genshin Impact" class="mt-2 bg-yellow-400 text-gray-900 py-1 px-2 rounded w-full hover:bg-yellow-500 hover:shadow-lg" onclick="confirmTopUp('Genshin Impact')">Top Up</button>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg game-card">
+                    <img alt="Logo of Zenless Zone Zero" class="rounded-lg mb-2 h-32 w-32 object-cover mx-auto" src="https://cdn1.codashop.com/S/content/mobile/images/product-tiles/ZZZ_Zenless-Zone-Zero-Tile.png" loading="lazy" />
+                    <h2 class="text-center text-lg font-bold">Zenless Zone Zero</h2>
+                    <p class="text-center game-description">RPG aksi yang menggabungkan grafis menawan dan cerita mendebarkan! Temukan dunia baru!</p>
+                    <button aria-label="Top Up Zenless Zone Zero" class="mt-2 bg-yellow-400 text-gray-900 py-1 px-2 rounded w-full hover:bg-yellow-500 hover:shadow-lg" onclick="confirmTopUp('Zenless Zone Zero')">Top Up</button>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg game-card">
+                    <img alt="Logo of Honor of Kings" class="rounded-lg mb-2 h-32 w-32 object-cover mx-auto" src="https://cdn1.codashop.com/S/content/mobile/images/product-tiles/HonorofKings_Codacash178x178.jpg" loading="lazy" />
+                    <h2 class="text-center text-lg font-bold">Honor of Kings</h2>
+                    <p class="text-center game-description">Masuki arena pertempuran dan buktikan siapa pahlawan sejati dalam pertarungan tanpa henti!</p>
+                    <button aria-label="Top Up Honor of Kings" class="mt-2 bg-yellow-400 text-gray-900 py-1 px-2 rounded w-full hover:bg-yellow-500 hover:shadow-lg" onclick="confirmTopUp('Honor of Kings')">Top Up</button>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg game-card">
+                    <img alt="Logo of PUBG Mobile" class="rounded-lg mb-2 h-32 w-32 object-cover mx-auto" src="https://cdn1.codashop.com/S/content/mobile/images/product-tiles/pubgm_tile_aug2024.jpg" loading="lazy" />
+                    <h2 class="text-center text-lg font-bold">PUBG Mobile</h2>
+                    <p class="text-center game-description">Bersaing dengan pemain di seluruh dunia, strategi dan keberanian akan menentukan siapa yang bertahan!</p>
+                    <button aria-label="Top Up PUBG Mobile" class="mt-2 bg-yellow-400 text-gray-900 py-1 px-2 rounded w-full hover:bg-yellow-500 hover:shadow-lg" onclick="confirmTopUp('PUBG Mobile')">Top Up</button>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg game-card">
+                    <img alt="Logo of VALORANT" class="rounded-lg mb-2 h-32 w-32 object-cover mx-auto" src="https://cdn1.codashop.com/S/content/mobile/images/product-tiles/valorant_tile.jpg" loading="lazy" />
+                    <h2 class="text-center text-lg font-bold">Valorant</h2>
+                    <p class="text-center game-description">Game FPS yang memadukan strategi dan keterampilan tembak. Bergabunglah dalam aksi menegangkan!</p>
+                    <button aria-label="Top Up Valorant" class="mt-2 bg-yellow-400 text-gray-900 py-1 px-2 rounded w-full hover:bg-yellow-500 hover:shadow-lg" onclick="confirmTopUp('Valorant')">Top Up</button>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg game-card">
+                    <img alt="Logo of Call of Duty: Mobile" class="rounded-lg mb-2 h-32 w-32 object-cover mx-auto" src="https://cdn1.codashop.com/S/content/mobile/images/product-tiles/CODM-tile-codacash-new.jpg" loading="lazy" />
+                    <h2 class="text-center text-lg font-bold">Call of Duty: Mobile</h2>
+                    <p class="text-center game-description">Pengalaman perang mendebarkan di telapak tangan Anda. Bergabunglah dan tunjukkan kemahiranmu!</p>
+                    <button aria-label="Top Up Call of Duty: Mobile" class="mt-2 bg-yellow-400 text-gray-900 py-1 px-2 rounded w-full hover:bg-yellow-500 hover:shadow-lg" onclick="confirmTopUp('Call of Duty: Mobile')">Top Up</button>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg game-card">
+                    <img alt="Logo of ZEPETO" class="rounded-lg mb-2 h-32 w-32 object-cover mx-auto" src="https://cdn1.codashop.com/S/content/mobile/images/product-tiles/zepeto-tile-codacash-new.jpg" loading="lazy" />
+                    <h2 class="text-center text-lg font-bold">ZEPETO</h2>
+                    <p class="text-center game-description">Ciptakan avatar unik, temui teman baru, dan jelajahi dunia virtual yang penuh warna!</p>
+                    <button aria-label="Top Up ZEPETO" class="mt-2 bg-yellow-400 text-gray-900 py-1 px-2 rounded w-full hover:bg-yellow-500 hover:shadow-lg" onclick="confirmTopUp('ZEPETO')">Top Up</button>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg game-card">
+                    <img alt="Logo of Undawn" class="rounded-lg mb-2 h-32 w-32 object-cover mx-auto" src="https://cdn1.codashop.com/S/content/mobile/images/product-tiles/Garena-Undawn-tile-codacash.jpg" loading="lazy" />
+                    <h2 class="text-center text-lg font-bold">Undawn</h2>
+                    <p class="text-center game-description">Bergabunglah dalam petualangan dunia pasca-apokaliptik yang menantang dan temukan harapan di tengah kegelapan!</p>
+                    <button aria-label="Top Up Undawn" class="mt-2 bg-yellow-400 text-gray-900 py-1 px-2 rounded w-full hover:bg-yellow-500 hover:shadow-lg" onclick="confirmTopUp('Undawn')">Top Up</button>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <h2 class="text-3xl mb-4 text-start text-yellow-300 font-bold">Aplikasi</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-8">
+                <!-- Application Cards -->
+                <div class="bg-gray-700 p-4 rounded-lg game-card">
+                    <img alt="Logo of Spotify" class="rounded-lg mb-2 h-32 w-32 object-cover mx-auto" src="https://cdn1.codashop.com/S/content/mobile/images/product-tiles/spotify_ccid_tile.jpg" loading="lazy" />
+                    <h2 class="text-center text-lg font-bold">Spotify Premium Voucher</h2>
+                    <p class="text-center game-description">Nikmati musik tanpa batas dan tanpa iklan! Temukan lagu-lagu favoritmu sekarang!</p>
+                    <button aria-label="Top Up Spotify" class="mt-2 bg-yellow-400 text-gray-900 py-1 px-2 rounded w-full hover:bg-yellow-500 hover:shadow-lg" onclick="confirmTopUp('Spotify')">Top Up</button>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg game-card">
+                    <img alt="Logo of Viu" class="rounded-lg mb-2 h-32 w-32 object-cover mx-auto" src="https://cdn1.codashop.com/S/content/mobile/images/product-tiles/VIU-tile-codacash-new.jpg" loading="lazy" />
+                    <h2 class="text-center text-lg font-bold">Viu Premium (Kode Voucher)</h2>
+                    <p class="text-center game-description">Tonton drama, film, dan acara TV favorit tanpa batas dan tanpa gangguan iklan!</p>
+                    <button aria-label="Top Up Viu" class="mt-2 bg-yellow-400 text-gray-900 py-1 px-2 rounded w-full hover:bg-yellow-500 hover:shadow-lg" onclick="confirmTopUp('Viu')">Top Up</button>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg game-card">
+                    <img alt="Logo of Vidio" class="rounded-lg mb-2 h-32 w-32 object-cover mx-auto" src="https://cdn1.codashop.com/S/content/mobile/images/product-tiles-plain/coodashop_epl_tile_image_178x178.jpg" loading="lazy" />
+                    <h2 class="text-center text-lg font-bold">Vidio</h2>
+                    <p class="text-center game-description">Tonton berbagai konten menarik dari serial hingga film. Tidak ada yang terlewatkan!</p>
+                    <button aria-label="Top Up Vidio" class="mt-2 bg-yellow-400 text-gray-900 py-1 px-2 rounded w-full hover:bg-yellow-500 hover:shadow-lg" onclick="confirmTopUp('Vidio')">Top Up</button>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg game-card">
+                    <img alt="Logo of Vision" class="rounded-lg mb-2 h-32 w-32 object-cover mx-auto" src="https://cdn1.codashop.com/S/content/mobile/images/product-tiles/vision-plus-tile-codacash-new.jpg" loading="lazy" />
+                    <h2 class="text-center text-lg font-bold">Vision+</h2>
+                    <p class="text-center game-description">Dapatkan akses ke film dan acara menarik yang tidak boleh Anda lewatkan!</p>
+                    <button aria-label="Top Up Vision+" class="mt-2 bg-yellow-400 text-gray-900 py-1 px-2 rounded w-full hover:bg-yellow-500 hover:shadow-lg" onclick="confirmTopUp('Vision+')">Top Up</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Info Section -->
+        <div class="info-section">
+            <h2>Naf Points Indonesia</h2>
+            <p>Naf Points: Website top-up terbesar, tercepat dan terpercaya di Indonesia</p>
+            <p>Setiap bulannya, jutaan gamers menggunakan Naf Points untuk melakukan pembelian kredit game dengan lancar: tanpa registrasi ataupun log-in, dan kredit permainan akan ditambahkan secara instan. Top-up Mobile Legends, Free Fire, Ragnarok M, dan berbagai game lainnya!</p>
+            
+            <div class="flex items-center">
+                <img src="https://cdn1.codashop.com/S/content/mobile/images/reskin/usp-icons/easy_and_fast_portal.png" alt="Quick icon"/>
+                <p>Bayar dalam hitungan detik: Hanya dibutuhkan beberapa detik saja untuk menyelesaikan pembayaran di Naf Points karena situs kami berfungsi dengan baik dan mudah untuk digunakan.</p>
+            </div>
+            <div class="flex items-center">
+                <img src="https://cdn1.codashop.com/S/content/mobile/images/reskin/usp-icons/instant_delivery_portal.png" alt="Delivery icon"/>
+                <p>Pengiriman instan: Ketika kamu melakukan top-up di Naf Points, item atau barang yang kamu beli akan selalu dikirim ke akun kamu secara instan dan cepat, tanpa tertunda.</p>
+            </div>
+            <div class="flex items-center">
+                <img src="https://cdn1.codashop.com/S/content/mobile/images/reskin/usp-icons/payment_method_portal.png" alt="Payments icon"/>
+                <p>Metode pembayaran terbaik: Kami menawarkan begitu banyak pilihan pembayaran mulai dari potong pulsa, e-wallet, bank transfer, dan pembayaran di mini market terdekat.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
