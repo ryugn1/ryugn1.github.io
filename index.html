@@ -120,21 +120,25 @@
         }
 
         /* Style untuk dropdown tema */
-        .theme-selector {
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc; /* Border */
-            background-color: #fafafa; /* Warna latar belakang */
-            transition: border-color 0.3s ease; /* Efek transisi */
-        }
+/* Style untuk dropdown tema */
+.theme-selector {
+    width: 100%;
+    padding: 8px; /* Mengurangi padding */
+    font-size: 14px; /* Mengurangi ukuran font */
+    border-radius: 8px; /* Mengurangi radius border */
+    margin-bottom: 15px;
+    border: 1px solid #ccc; /* Border */
+    background-color: #fafafa; /* Warna latar belakang */
+    transition: border-color 0.3s ease; /* Efek transisi */
+    cursor: pointer; /* Mengubah kursor menjadi pointer */
+}
 
-        .theme-selector:focus {
-            border-color: #007bff; /* Warna border saat fokus */
-            outline: none; /* Menghilangkan outline default */
-        }
+/* Efek fokus untuk dropdown */
+.theme-selector:focus {
+    border-color: #007bff; /* Warna border saat fokus */
+    outline: none; /* Menghilangkan outline default */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Efek bayangan saat fokus */
+}
 
         /* Tema khusus */
         .modern {
@@ -243,16 +247,16 @@
     <div class="container" id="mainContainer">
         <h2>Rekap Pick</h2>
 
-        <!-- Pilihan Tema -->
-        <select id="themeSelector" class="theme-selector" onchange="changeTheme()">
-            <option value="modern">Modern</option>
-            <option value="futuristic">Futuristic</option>
-            <option value="tradisional">Tradisional</option>
-            <option value="hitam-putih">Hitam-Putih</option>
-        </select>
+<!-- Pilihan Tema -->
+<select id="themeSelector" class="theme-selector" onchange="changeTheme()">
+    <option value="modern">Modern</option>
+    <option value="futuristic">Futuristic</option>
+    <option value="tradisional">Tradisional</option>
+    <option value="hitam-putih">Hitam-Putih</option>
+</select>
 
         <!-- Form Input Teks dan Persentase -->
-        <textarea id="inputText" rows="5" placeholder="Masukkan angka per baris" disabled></textarea>
+        <textarea id="inputText" rows="5" placeholder="Masukkan list" disabled></textarea>
         <input type="number" id="percentage" placeholder="Masukkan persentase" disabled>
         <button id="calculateBtn" onclick="showLoading(); rekapAngka()" disabled>Hitung</button>
 
