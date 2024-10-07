@@ -120,25 +120,24 @@
         }
 
         /* Style untuk dropdown tema */
-/* Style untuk dropdown tema */
-.theme-selector {
-    width: 100%;
-    padding: 8px; /* Mengurangi padding */
-    font-size: 14px; /* Mengurangi ukuran font */
-    border-radius: 8px; /* Mengurangi radius border */
-    margin-bottom: 15px;
-    border: 1px solid #ccc; /* Border */
-    background-color: #fafafa; /* Warna latar belakang */
-    transition: border-color 0.3s ease; /* Efek transisi */
-    cursor: pointer; /* Mengubah kursor menjadi pointer */
-}
+        .theme-selector {
+            width: 100%;
+            padding: 8px; /* Mengurangi padding */
+            font-size: 14px; /* Mengurangi ukuran font */
+            border-radius: 8px; /* Mengurangi radius border */
+            margin-bottom: 15px;
+            border: 1px solid #ccc; /* Border */
+            background-color: #fafafa; /* Warna latar belakang */
+            transition: border-color 0.3s ease; /* Efek transisi */
+            cursor: pointer; /* Mengubah kursor menjadi pointer */
+        }
 
-/* Efek fokus untuk dropdown */
-.theme-selector:focus {
-    border-color: #007bff; /* Warna border saat fokus */
-    outline: none; /* Menghilangkan outline default */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Efek bayangan saat fokus */
-}
+        /* Efek fokus untuk dropdown */
+        .theme-selector:focus {
+            border-color: #007bff; /* Warna border saat fokus */
+            outline: none; /* Menghilangkan outline default */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Efek bayangan saat fokus */
+        }
 
         /* Tema khusus */
         .modern {
@@ -247,23 +246,19 @@
     <div class="container" id="mainContainer">
         <h2>Rekap Pick</h2>
 
-<!-- Pilihan Tema -->
-<select id="themeSelector" class="theme-selector" onchange="changeTheme()">
-    <option value="modern">Modern</option>
-    <option value="futuristic">Futuristic</option>
-    <option value="tradisional">Tradisional</option>
-    <option value="hitam-putih">Hitam-Putih</option>
-</select>
+        <!-- Pilihan tema -->
+        <select id="themeSelector" class="theme-selector" onchange="setTheme()">
+            <option value="default">Pilih Tema</option>
+            <option value="modern">Modern</option>
+            <option value="futuristic">Futuristik</option>
+            <option value="tradisional">Tradisional</option>
+            <option value="hitam-putih">Hitam Putih</option>
+        </select>
 
-        <!-- Form Input Teks dan Persentase -->
-        <textarea id="inputText" rows="5" placeholder="Masukkan list" disabled></textarea>
-        <input type="number" id="percentage" placeholder="Masukkan persentase" disabled>
-        <button id="calculateBtn" onclick="showLoading(); rekapAngka()" disabled>Hitung</button>
-
-        <!-- Container untuk Hasil -->
-        <div class="result" id="resultContainer"></div>
-
-        <!-- Loader Animation -->
+        <textarea id="inputText" placeholder="Masukkan item di sini..."></textarea>
+        <button onclick="addItem()">Tambah Item</button>
+        
+        <!-- Loading Animation -->
         <div class="loading" id="loading">
             <div class="cube">
                 <div class="face1"></div>
@@ -274,128 +269,75 @@
                 <div class="face6"></div>
             </div>
         </div>
+
+        <!-- Container untuk hasil -->
+        <div class="result" id="resultContainer"></div>
     </div>
 
     <script>
-        let validKey = ""; // Kunci akses yang benar
+        // Daftar item
+        let items = [];
+        // Elemen
+        const keyInput = document.getElementById("keyInput");
+        const mainContainer = document.getElementById("mainContainer");
+        const keyInputContainer = document.getElementById("keyInputContainer");
+        const alertText = document.getElementById("alert");
+        const loading = document.getElementById("loading");
+        const resultContainer = document.getElementById("resultContainer");
+        const themeSelector = document.getElementById("themeSelector");
 
-        // Mengambil kunci dari URL
-        fetch("https://raw.githubusercontent.com/ryugn1/ryugn1/refs/heads/main/rekap.json")
-            .then(response => response.json())
-            .then(data => {
-                validKey = data.key; // Asumsikan kunci terdapat dalam properti 'key'
-            })
-            .catch(error => {
-                console.error("Error fetching the key:", error);
-            });
-
+        // Fungsi untuk memeriksa kunci akses
         function checkKey() {
-            const userKey = document.getElementById("keyInput").value;
-            const alertElement = document.getElementById("alert");
-            const calculateBtn = document.getElementById("calculateBtn");
-            const inputText = document.getElementById("inputText");
-            const percentageInput = document.getElementById("percentage");
-
-            if (userKey === validKey) {
-                alertElement.textContent = "Kunci valid. Silakan lanjutkan.";
-                alertElement.style.color = "green";
-                inputText.disabled = false;
-                percentageInput.disabled = false;
-                calculateBtn.disabled = false;
-
-                // Menampilkan kontainer utama dan menyembunyikan kontainer kunci
-                document.getElementById("mainContainer").style.display = "block";
-                document.getElementById("keyInputContainer").style.display = "none";
+            const key = keyInput.value;
+            if (key === "your-access-key") { // Ganti dengan kunci Anda
+                keyInputContainer.style.display = "none"; // Sembunyikan input kunci
+                mainContainer.style.display = "block"; // Tampilkan aplikasi utama
+                resultContainer.innerHTML = ""; // Reset hasil
             } else {
-                alertElement.textContent = "Kunci tidak valid. Coba lagi.";
-                alertElement.style.color = "red";
+                alertText.textContent = "Kunci tidak valid! Silakan coba lagi.";
             }
         }
 
-        // Fungsi untuk menampilkan loading
-        function showLoading() {
-            document.getElementById("loading").style.display = "block"; // Tampilkan loader
-            setTimeout(hideLoading, 2000); // Sembunyikan loader setelah 2 detik
+        // Fungsi untuk menambahkan item
+        function addItem() {
+            const inputText = document.getElementById("inputText").value;
+            if (inputText.trim() !== "") {
+                items.push(inputText);
+                updateResults();
+                document.getElementById("inputText").value = ""; // Reset input
+            }
         }
 
-        // Fungsi untuk menyembunyikan loading
-        function hideLoading() {
-            document.getElementById("loading").style.display = "none"; // Sembunyikan loader
-        }
-
-        function rekapAngka() {
-            let text = document.getElementById("inputText").value;
-            let percentage = document.getElementById("percentage").value;
-            let resultContainer = document.getElementById("resultContainer");
-            resultContainer.innerHTML = "<p>Hasil:</p>";  // Reset hasil sebelumnya
-
-            let lines = text.split('\n');  // Memisahkan input berdasarkan baris
-            
-            lines.forEach(line => {
-                let numbers = line.match(/\d+/g);  // Mencari angka dalam setiap baris
-                
-                if (numbers) {
-                    numbers.forEach(num => {
-                        let multiplied = num * 2;
-                        let result = multiplied - (multiplied * (percentage / 100));  // Gunakan persentase dari input
-
-                        // Format angka dengan pemisah ribuan dan hilangkan nol di belakang koma
-                        let formattedNum = formatRibuan(num);
-                        let formattedResult = formatRibuan(hapusNolBelakang(result.toFixed(2)));
-
-                        // Tampilkan angka asli dan hasil dengan format "angka asli/hasil"
-                        line = line.replace(num, `${formattedNum}/${formattedResult}`);
-                    });
-                }
-
-                // Tampilkan baris yang telah dimodifikasi
-                let resultItem = document.createElement("div");
-                resultItem.classList.add("result-item");
-                resultItem.textContent = line;
-                resultContainer.appendChild(resultItem);
+        // Fungsi untuk memperbarui hasil
+        function updateResults() {
+            resultContainer.innerHTML = ""; // Reset hasil
+            items.forEach(item => {
+                const div = document.createElement("div");
+                div.className = "result-item";
+                div.textContent = item;
+                resultContainer.appendChild(div);
             });
-
-            hideLoading(); // Sembunyikan loader setelah proses selesai
         }
 
-        // Fungsi untuk menambahkan titik sebagai pemisah ribuan
-        function formatRibuan(number) {
-            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        // Fungsi untuk mengubah tema
+        function setTheme() {
+            const selectedTheme = themeSelector.value;
+            mainContainer.className = selectedTheme; // Ganti kelas untuk tema
         }
 
-        // Fungsi untuk menghapus nol di belakang koma
-        function hapusNolBelakang(number) {
-            return parseFloat(number).toString();  // Menghapus trailing zeros
-        }
-
-        // Fungsi untuk mengganti tema
-        function changeTheme() {
-            let theme = document.getElementById("themeSelector").value;
-            let appContainer = document.getElementById("mainContainer");
-
-            document.body.className = '';  // Reset kelas tema body
-            appContainer.className = 'container';  // Reset kelas container
-
-            switch (theme) {
-                case "modern":
-                    appContainer.classList.add("modern");
-                    document.body.style.backgroundColor = '#e0e0e0'; // Ganti warna latar belakang
-                    break;
-                case "futuristic":
-                    appContainer.classList.add("futuristic");
-                    document.body.style.backgroundColor = '#1d1f27';
-                    break;
-                case "tradisional":
-                    appContainer.classList.add("tradisional");
-                    document.body.style.backgroundColor = '#fff8e1';
-                    break;
-                case "hitam-putih":
-                    appContainer.classList.add("hitam-putih");
-                    document.body.style.backgroundColor = '#000';
-                    break;
+        // Listener untuk mengatur ulang tampilan ketika halaman tidak aktif
+        document.addEventListener("visibilitychange", function() {
+            if (document.visibilityState === 'hidden') {
+                keyInputContainer.style.display = "block"; // Tampilkan input kunci
+                mainContainer.style.display = "none"; // Sembunyikan aplikasi utama
+                keyInput.value = ""; // Reset input kunci
+                alertText.textContent = ""; // Reset pesan alert
+                items = []; // Reset daftar item
+                resultContainer.innerHTML = ""; // Reset hasil
+                themeSelector.value = "default"; // Reset pilihan tema
+                mainContainer.className = ""; // Reset kelas tema
             }
-        }
+        });
     </script>
-
 </body>
 </html>
