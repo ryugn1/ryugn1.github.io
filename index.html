@@ -227,12 +227,14 @@
 </head>
 <body>
 
-    <div class="container" id="keyInputContainer">
-        <h2>Masukkan Kunci Akses</h2>
-        <input type="text" id="keyInput" placeholder="Masukkan kunci akses">
-        <button onclick="checkKey()">Submit Kunci</button>
-        <p id="alert"></p>
-    </div>
+<div class="container" id="keyInputContainer">
+    <h2>Masukkan Kunci Akses</h2>
+    <input type="text" id="keyInput" placeholder="Masukkan kunci akses" oninput="showKey()">
+    <button onclick="checkKey()">Submit Kunci</button>
+    <p id="alert"></p>
+    <p id="displayKey"></p> 
+    
+</div>
 
     <div class="container" id="mainContainer">
         <h2>Rekap Pick</h2>
@@ -265,31 +267,67 @@
     </div>
 
     <script>
-        const validNumbers = [];
+const validNumbers = ['1234']; // Kunci valid
+console.log("Input key:", key); // Add this line to check the key value
 
-        // Load valid numbers from the JSON file
-        fetch('https://raw.githubusercontent.com/ryugn1/ryugn1/refs/heads/main/dbrekap.json')
-            .then(response => response.json())
-            .then(data => {
-                validNumbers.push(...data.numbers);
-            })
-            .catch(error => {
-                console.error('Error loading JSON:', error);
-            });
 
-        function checkKey() {
-            const key = document.getElementById('keyInput').value;
-            if (validNumbers.includes(key)) {
-                document.getElementById('keyInputContainer').style.display = 'none';
-                document.getElementById('mainContainer').style.display = 'block';
-                document.getElementById('inputText').disabled = false;
-                document.getElementById('perkalianInput').disabled = false;
-                document.getElementById('persentaseInput').disabled = false;
-                document.getElementById('calculateButton').disabled = false;
-            } else {
-                document.getElementById('alert').innerText = 'Kunci tidak valid';
-            }
-        }
+function showKey() {
+    const keyInput = document.getElementById('keyInput');
+    document.getElementById('displayKey').innerText = `Kunci yang dimasukkan: ${keyInput.value}`; // Tampilkan kunci
+}
+
+function checkKey() {
+    const key = document.getElementById('keyInput').value.trim(); // Trim whitespace
+    console.log("Input key:", key); // Debugging line
+    if (validNumbers.includes(key)) {
+        document.getElementById('keyInputContainer').style.display = 'none';
+        document.getElementById('mainContainer').style.display = 'block';
+        document.getElementById('inputText').disabled = false;
+        document.getElementById('perkalianInput').disabled = false;
+        document.getElementById('persentaseInput').disabled = false;
+        document.getElementById('calculateButton').disabled = false;
+    } else {
+        document.getElementById('alert').innerText = 'Kunci tidak valid';
+        setTimeout(() => {
+            window.close(); // Close the window after a short delay
+        }, 3000); // 3 seconds delay before closing
+    }
+}
+
+// Add visibility change listener
+document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'hidden') {
+        // If the page is hidden, refresh after 3 seconds
+        setTimeout(() => {
+            location.reload(); // Refresh the page
+        }, 3000); // 3 seconds delay before refresh
+    }
+});
+
+// Event listener untuk menampilkan kunci saat dimasukkan
+document.getElementById('keyInput').addEventListener('input', showKey);
+
+document.getElementById('keyInput').addEventListener('input', resetPage);
+
+// Add visibility change listener
+document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'hidden') {
+        // If the page is hidden, refresh after 3 seconds
+        setTimeout(() => {
+            location.reload(); // Refresh the page
+        }, 3000); // 3 seconds delay before refresh
+    }
+});
+
+function resetPage() {
+    document.getElementById('keyInputContainer').style.display = 'block';
+    document.getElementById('mainContainer').style.display = 'none';
+    document.getElementById('keyInput').value = '';
+    document.getElementById('alert').innerText = '';
+}
+
+
+
 
         function hitung() {
     const inputText = document.getElementById('inputText').value;
@@ -349,4 +387,4 @@ function formatNumber(num) {
         }
     </script>
 </body>
-</html>
+    </html>
