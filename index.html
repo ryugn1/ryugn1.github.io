@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rekap Pick</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         /* Untuk body agar tampil di tengah dan responsif */
         body {
@@ -14,7 +13,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #f0f4f8;
+            background-color: #e0e0e0;
             transition: background-color 0.5s ease;
         }
 
@@ -23,7 +22,7 @@
             max-width: 400px; /* Lebar maksimum kontainer */
             width: 100%;
             border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
             padding: 30px; /* Padding lebih besar */
             text-align: center;
             background-color: white;
@@ -74,7 +73,7 @@
             border: none;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-            font-weight: 600; /* Tebal */
+            font-weight: bold; /* Tebal */
         }
 
         button:hover {
@@ -121,24 +120,25 @@
         }
 
         /* Style untuk dropdown tema */
-        .theme-selector {
-            width: 100%;
-            padding: 8px; /* Mengurangi padding */
-            font-size: 14px; /* Mengurangi ukuran font */
-            border-radius: 8px; /* Mengurangi radius border */
-            margin-bottom: 15px;
-            border: 1px solid #ccc; /* Border */
-            background-color: #fafafa; /* Warna latar belakang */
-            transition: border-color 0.3s ease; /* Efek transisi */
-            cursor: pointer; /* Mengubah kursor menjadi pointer */
-        }
+/* Style untuk dropdown tema */
+.theme-selector {
+    width: 100%;
+    padding: 8px; /* Mengurangi padding */
+    font-size: 14px; /* Mengurangi ukuran font */
+    border-radius: 8px; /* Mengurangi radius border */
+    margin-bottom: 15px;
+    border: 1px solid #ccc; /* Border */
+    background-color: #fafafa; /* Warna latar belakang */
+    transition: border-color 0.3s ease; /* Efek transisi */
+    cursor: pointer; /* Mengubah kursor menjadi pointer */
+}
 
-        /* Efek fokus untuk dropdown */
-        .theme-selector:focus {
-            border-color: #007bff; /* Warna border saat fokus */
-            outline: none; /* Menghilangkan outline default */
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Efek bayangan saat fokus */
-        }
+/* Efek fokus untuk dropdown */
+.theme-selector:focus {
+    border-color: #007bff; /* Warna border saat fokus */
+    outline: none; /* Menghilangkan outline default */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Efek bayangan saat fokus */
+}
 
         /* Tema khusus */
         .modern {
@@ -237,28 +237,33 @@
 
     <!-- Container untuk input kunci -->
     <div class="container" id="keyInputContainer">
-        <h2>Masukkan Kunci</h2>
-        <input type="text" id="keyInput" placeholder="Kunci Anda">
-        <button onclick="submitKey()">Kirim</button>
-        <div id="alert"></div>
+        <h2>Masukkan Kunci Akses</h2>
+        <input type="text" id="keyInput" placeholder="Masukkan kunci akses">
+        <button onclick="checkKey()">Submit Kunci</button>
+        <p id="alert"></p>
     </div>
 
-    <!-- Main container for the app -->
+    <!-- Container untuk aplikasi utama -->
     <div class="container" id="mainContainer">
         <h2>Rekap Pick</h2>
-        <label for="themeSelector">Pilih Tema:</label>
-        <select id="themeSelector" class="theme-selector" onchange="changeTheme()">
-            <option value="default">Default</option>
-            <option value="modern">Modern</option>
-            <option value="futuristic">Futuristic</option>
-            <option value="tradisional">Tradisional</option>
-            <option value="hitam-putih">Hitam-Putih</option>
-        </select>
 
-        <textarea id="inputText" rows="5" placeholder="Masukkan kalimat..."></textarea>
-        <button onclick="processInput()">Proses</button>
+<!-- Pilihan Tema -->
+<select id="themeSelector" class="theme-selector" onchange="changeTheme()">
+    <option value="modern">Modern</option>
+    <option value="futuristic">Futuristic</option>
+    <option value="tradisional">Tradisional</option>
+    <option value="hitam-putih">Hitam-Putih</option>
+</select>
 
+        <!-- Form Input Teks dan Persentase -->
+        <textarea id="inputText" rows="5" placeholder="Masukkan list" disabled></textarea>
+        <input type="number" id="percentage" placeholder="Masukkan persentase" disabled>
+        <button id="calculateBtn" onclick="showLoading(); rekapAngka()" disabled>Hitung</button>
+
+        <!-- Container untuk Hasil -->
         <div class="result" id="resultContainer"></div>
+
+        <!-- Loader Animation -->
         <div class="loading" id="loading">
             <div class="cube">
                 <div class="face1"></div>
@@ -272,59 +277,125 @@
     </div>
 
     <script>
-        // Mendapatkan elemen
-        const keyInput = document.getElementById('keyInput');
-        const alertBox = document.getElementById('alert');
-        const mainContainer = document.getElementById('mainContainer');
-        const keyInputContainer = document.getElementById('keyInputContainer');
-        const loading = document.getElementById('loading');
-        const resultContainer = document.getElementById('resultContainer');
+        let validKey = ""; // Kunci akses yang benar
 
-        // Mengganti tema
-        function changeTheme() {
-            const selectedTheme = document.getElementById('themeSelector').value;
-            mainContainer.className = ''; // Reset class
-            if (selectedTheme !== 'default') {
-                mainContainer.classList.add(selectedTheme);
-            }
-        }
+        // Mengambil kunci dari URL
+        fetch("https://raw.githubusercontent.com/ryugn1/ryugn1/refs/heads/main/rekap.json")
+            .then(response => response.json())
+            .then(data => {
+                validKey = data.key; // Asumsikan kunci terdapat dalam properti 'key'
+            })
+            .catch(error => {
+                console.error("Error fetching the key:", error);
+            });
 
-        // Menangani input kunci
-        function submitKey() {
-            const key = keyInput.value.trim();
-            if (key === '') {
-                alertBox.innerText = 'Kunci tidak boleh kosong!';
+        function checkKey() {
+            const userKey = document.getElementById("keyInput").value;
+            const alertElement = document.getElementById("alert");
+            const calculateBtn = document.getElementById("calculateBtn");
+            const inputText = document.getElementById("inputText");
+            const percentageInput = document.getElementById("percentage");
+
+            if (userKey === validKey) {
+                alertElement.textContent = "Kunci valid. Silakan lanjutkan.";
+                alertElement.style.color = "green";
+                inputText.disabled = false;
+                percentageInput.disabled = false;
+                calculateBtn.disabled = false;
+
+                // Menampilkan kontainer utama dan menyembunyikan kontainer kunci
+                document.getElementById("mainContainer").style.display = "block";
+                document.getElementById("keyInputContainer").style.display = "none";
             } else {
-                alertBox.innerText = '';
-                keyInputContainer.style.display = 'none'; // Sembunyikan input kunci
-                mainContainer.style.display = 'block'; // Tampilkan konten utama
+                alertElement.textContent = "Kunci tidak valid. Coba lagi.";
+                alertElement.style.color = "red";
             }
         }
 
-        // Proses input
-        function processInput() {
-            const inputText = document.getElementById('inputText').value.trim();
-            if (inputText === '') {
-                alert('Masukkan kalimat terlebih dahulu!');
-                return;
+        // Fungsi untuk menampilkan loading
+        function showLoading() {
+            document.getElementById("loading").style.display = "block"; // Tampilkan loader
+            setTimeout(hideLoading, 2000); // Sembunyikan loader setelah 2 detik
+        }
+
+        // Fungsi untuk menyembunyikan loading
+        function hideLoading() {
+            document.getElementById("loading").style.display = "none"; // Sembunyikan loader
+        }
+
+        function rekapAngka() {
+            let text = document.getElementById("inputText").value;
+            let percentage = document.getElementById("percentage").value;
+            let resultContainer = document.getElementById("resultContainer");
+            resultContainer.innerHTML = "<p>Hasil:</p>";  // Reset hasil sebelumnya
+
+            let lines = text.split('\n');  // Memisahkan input berdasarkan baris
+            
+            lines.forEach(line => {
+                let numbers = line.match(/\d+/g);  // Mencari angka dalam setiap baris
+                
+                if (numbers) {
+                    numbers.forEach(num => {
+                        let multiplied = num * 2;
+                        let result = multiplied - (multiplied * (percentage / 100));  // Gunakan persentase dari input
+
+                        // Format angka dengan pemisah ribuan dan hilangkan nol di belakang koma
+                        let formattedNum = formatRibuan(num);
+                        let formattedResult = formatRibuan(hapusNolBelakang(result.toFixed(2)));
+
+                        // Tampilkan angka asli dan hasil dengan format "angka asli/hasil"
+                        line = line.replace(num, ${formattedNum}/${formattedResult});
+                    });
+                }
+
+                // Tampilkan baris yang telah dimodifikasi
+                let resultItem = document.createElement("div");
+                resultItem.classList.add("result-item");
+                resultItem.textContent = line;
+                resultContainer.appendChild(resultItem);
+            });
+
+            hideLoading(); // Sembunyikan loader setelah proses selesai
+        }
+
+        // Fungsi untuk menambahkan titik sebagai pemisah ribuan
+        function formatRibuan(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        // Fungsi untuk menghapus nol di belakang koma
+        function hapusNolBelakang(number) {
+            return parseFloat(number).toString();  // Menghapus trailing zeros
+        }
+
+        // Fungsi untuk mengganti tema
+        function changeTheme() {
+            let theme = document.getElementById("themeSelector").value;
+            let appContainer = document.getElementById("mainContainer");
+
+            document.body.className = '';  // Reset kelas tema body
+            appContainer.className = 'container';  // Reset kelas container
+
+            switch (theme) {
+                case "modern":
+                    appContainer.classList.add("modern");
+                    document.body.style.backgroundColor = '#e0e0e0'; // Ganti warna latar belakang
+                    break;
+                case "futuristic":
+                    appContainer.classList.add("futuristic");
+                    document.body.style.backgroundColor = '#1d1f27';
+                    break;
+                case "tradisional":
+                    appContainer.classList.add("tradisional");
+                    document.body.style.backgroundColor = '#fff8e1';
+                    break;
+                case "hitam-putih":
+                    appContainer.classList.add("hitam-putih");
+                    document.body.style.backgroundColor = '#000';
+                    break;
             }
-
-            resultContainer.innerHTML = '';
-            loading.style.display = 'block'; // Tampilkan loading
-
-            setTimeout(() => {
-                // Contoh pemrosesan data
-                const sentences = inputText.split('.').filter(Boolean);
-                sentences.forEach((sentence, index) => {
-                    const resultItem = document.createElement('div');
-                    resultItem.className = 'result-item';
-                    resultItem.innerText = `Hasil ${index + 1}: ${sentence.trim()}`;
-                    resultContainer.appendChild(resultItem);
-                });
-
-                loading.style.display = 'none'; // Sembunyikan loading
-            }, 2000); // Simulasi proses selama 2 detik
         }
     </script>
+
 </body>
 </html>
