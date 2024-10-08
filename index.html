@@ -336,23 +336,6 @@ async function fetchCurrentFileContent(filePath, repoOwner, repoName, token) {
 }
 </script>
 
-async function fetchCurrentFileContent(filePath, repoOwner, repoName, token) {
-    const response = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
-        headers: {
-            'Authorization': `token ${token}`,
-            'Accept': 'application/vnd.github.v3+json',
-        }
-    });
-
-    if (!response.ok) {
-        console.error('Error fetching file content:', await response.json());
-        return null; // Jika gagal, kembalikan null
-    }
-    
-    const data = await response.json();
-    return atob(data.content); // Decode konten dari base64
-}
-
 function hitung() {
     const inputText = document.getElementById('inputText').value;
     const perkalian = parseFloat(document.getElementById('perkalianInput').value);
