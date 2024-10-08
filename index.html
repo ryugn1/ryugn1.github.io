@@ -13,17 +13,16 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #e0e0e0;
-            transition: background-color 0.5s ease;
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
         /* Style utama untuk container */
         .container {
-            max-width: 400px;
+            max-width: 350px;
             width: 100%;
-            border-radius: 15px;
+            border-radius: 10px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            padding: 30px;
+            padding: 20px;
             text-align: center;
             background-color: white;
             transition: background-color 0.5s ease, color 0.5s ease;
@@ -31,27 +30,20 @@
         }
 
         h2 {
-            margin-bottom: 20px;
-            font-size: 28px;
+            margin-bottom: 15px;
+            font-size: 24px;
             color: #333;
             text-transform: uppercase;
             letter-spacing: 1px;
-            animation: fadeIn 0.5s ease;
-        }
-
-        /* Animasi untuk judul */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         textarea, input[type="text"], input[type="number"], select {
             width: calc(100% - 20px);
-            padding: 12px;
-            font-size: 16px;
-            border-radius: 10px;
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 8px;
             border: 1px solid #ccc;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             background-color: #fafafa;
             box-sizing: border-box;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -67,9 +59,9 @@
             width: 100%;
             background-color: #007bff;
             color: white;
-            padding: 15px;
-            font-size: 18px;
-            border-radius: 10px;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
             border: none;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
@@ -116,9 +108,41 @@
         .result-item:hover {
             background-color: #e2e2e2;
         }
+
+        /* Tema tambahan */
+        body.modern {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        body.futuristic {
+            background-color: #1d1f27;
+            color: #fff;
+        }
+
+        body.tradisional {
+            background-color: #fff8e1;
+            color: #000;
+        }
+
+        body.hitam-putih {
+            background-color: #000;
+            color: #fff;
+        }
+
+        /* Tambahkan perubahan tema untuk container */
+        .container.futuristic {
+            background-color: #2a2d35;
+            color: #fff;
+        }
+
+        .container.hitam-putih {
+            background-color: #333;
+            color: #fff;
+        }
     </style>
 </head>
-<body>
+<body class="modern"> <!-- Default theme modern -->
 
 <div class="container" id="keyInputContainer">
     <h2>Masukkan Nomor Telepon</h2>
@@ -266,29 +290,13 @@ function formatNumber(num) {
 
 function changeTheme() {
     const selectedTheme = document.getElementById('themeSelector').value;
+    const body = document.body;
+    body.className = selectedTheme; // Ubah tema body dengan class baru
+
     const container = document.querySelectorAll('.container');
     container.forEach(cont => {
         cont.className = 'container ' + selectedTheme;
     });
-
-    // Changing background color for body smoothly
-    const body = document.body;
-    switch (selectedTheme) {
-        case 'modern':
-            body.style.backgroundColor = '#e0e0e0';
-            break;
-        case 'futuristic':
-            body.style.backgroundColor = '#1d1f27';
-            break;
-        case 'tradisional':
-            body.style.backgroundColor = '#fff8e1';
-            break;
-        case 'hitam-putih':
-            body.style.backgroundColor = '#000';
-            break;
-        default:
-            body.style.backgroundColor = '#e0e0e0';
-    }
 }
 </script>
 </body>
