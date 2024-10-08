@@ -334,7 +334,6 @@ async function fetchCurrentFileContent(filePath, repoOwner, repoName, token) {
     const data = await response.json();
     return atob(data.content); // Decode konten dari base64
 }
-</script>
 
 function hitung() {
     const inputText = document.getElementById('inputText').value;
