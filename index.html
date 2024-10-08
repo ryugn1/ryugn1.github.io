@@ -135,7 +135,7 @@
     <div id="ownerContainer">
         <h3>Tambah Langganan Baru</h3>
         <input type="number" id="subscriptionDays" placeholder="Durasi Langganan (hari)" min="1">
-        <button onclick="addRandomSubscription()">Tambah Langganan Baru</button>
+        <button id="addSubscriptionButton">Tambah Langganan Baru</button>
         <p id="newUserAlert"></p>
     </div>
 
@@ -150,7 +150,7 @@
     <input type="number" id="perkalianInput" placeholder="Masukkan nilai perkalian (×)">
     <input type="number" id="persentaseInput" placeholder="Masukkan persentase (%)">
 
-    <button id="calculateButton" onclick="hitung()">Hitung</button>
+    <button id="calculateButton">Hitung</button>
 
     <div class="result" id="resultContainer"></div>
 </div>
@@ -184,6 +184,8 @@ let ownerDatabase = database.owners;
 // Tunggu sampai DOM siap sebelum menambahkan event listener
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('submitButton').addEventListener('click', checkSubscription);
+    document.getElementById('addSubscriptionButton').addEventListener('click', addRandomSubscription);
+    document.getElementById('calculateButton').addEventListener('click', hitung);
 });
 
 function normalizePhoneNumber(phoneNumber) {
@@ -229,33 +231,11 @@ async function addRandomSubscription() {
         userDatabase.push(newUser);
         document.getElementById('newUserAlert').innerText = `Langganan baru berhasil ditambahkan: ${randomPhoneNumber} dengan durasi ${subscriptionDays} hari.`;
         
-        // Update the GitHub repository
-        await updateGitHubDatabase(userDatabase);
+        // Tambahkan kode untuk memperbarui database di GitHub atau sistem penyimpanan lainnya jika diperlukan
     } else {
         document.getElementById('newUserAlert').innerText = `Nomor sudah ada di database.`;
     }
 }
-
-<script>
-async function addRandomSubscription() {
-    const subscriptionDays = parseInt(document.getElementById('subscriptionDays').value);
-    if (!subscriptionDays || subscriptionDays < 1) {
-        document.getElementById('newUserAlert').innerText = 'Durasi harus lebih dari 0 hari.';
-        return;
-    }
-
-    const randomPhoneNumber = '62' + Math.floor(Math.random() * 1000000000); // Buat nomor acak
-    if (!userDatabase.some(user => user.phoneNumber === randomPhoneNumber)) {
-        const newUser = {
-            phoneNumber: randomPhoneNumber,
-            isPermanent: false,
-            subscriptionStart: new Date().toISOString().split('T')[0],
-            subscriptionDays: subscriptionDays
-        };
-
-        userDatabase.push(newUser);
-        document.getElementById('newUserAlert').innerText = `Langganan baru berhasil ditambahkan: ${randomPhoneNumber} dengan durasi ${subscriptionDays} hari.`;
-        
 
 function hitung() {
     const inputText = document.getElementById('inputText').value;
