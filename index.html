@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kapal Api - Portofolio Keren</title>
+    <!-- AOS Library for Scroll Animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ece9e6, #ffffff);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Landing Page */
+        .landing-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://id-live-02.slatic.net/p/1affed70a145205140dfbbf84de71b33.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .landing-content {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .landing-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .enter-button {
+            padding: 15px 40px;
+            font-size: 18px;
+            background-color: #ff073a; /* Warna merah neon */
+            color: white; /* Warna teks putih untuk kontras */
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 5px #ff073a, 0 0 10px #ff073a, 0 0 15px #ff073a; /* Efek neon */
+        }
+
+        .enter-button:hover {
+            background-color: #ff2a65; /* Warna merah neon lebih terang saat hover */
+            transform: scale(1.05);
+            box-shadow: 0 0 10px #ff2a65, 0 0 20px #ff2a65, 0 0 30px #ff2a65; /* Efek neon saat hover */
+        }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            transition: background 0.5s ease;
+        }
+
+        .header.scrolled {
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 1.2px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #ff5722;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('https://awsimages.detik.net.id/community/media/visual/2022/02/21/minum-kopi-hitam-terbukti-turunkan-risiko-tertular-covid-19_169.jpeg?w=600&q=90');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            position: relative;
+            color: white;
+            text-align: center;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        .hero-content {
+            z-index: 1;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-size: 60px;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero p {
+            font-size: 22px;
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            padding: 15px 40px;
+            background-color: #ff5722;
+            color: white;
+            text-transform: uppercase;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #e64a19;
+            transform: translateY(-5px);
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        /* ABOUT SECTION */
+        .about {
+            padding: 80px 20px;
+            text-align: center;
+            background-color: #f8f8f8;
+        }
+
+        .about h2 {
+            font-size: 36px;
+            color: #d32f2f;
+            margin-bottom: 20px;
+        }
+
+        .about p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 18px;
+            color: #666;
+        }
+
+        /* SLOGAN SECTION */
+        .slogan {
+            padding: 80px 20px;
+            text-align: center;
+            background-color: #f8f8f862;
+        }
+
+        .slogan h2 {
+            font-size: 36px;
+            color: #d32f2f;
+            margin-bottom: 20px;
+        }
+
+        .slogan p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 18px;
+            color: #666;
+        }
+
+        /* PENYAJIAN SECTION */
+        .penyajian {
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .penyajian h2 {
+            font-size: 36px;
+            color: #d32f2f;
+            margin-bottom: 20px;
+        }
+
+        .penyajian p, .penyajian ol {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 18px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .penyajian ol li {
+            margin-bottom: 10px;
+        }
+
+        /* BUY SECTION */
+        .buy-section {
+            background-color: #f9f9f9;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .buy-section h2 {
+            font-size: 32px;
+            color: #d32f2f;
+            margin-bottom: 40px;
+        }
+
+        .buy-options {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .buy-option {
+            width: 250px;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .buy-option:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .buy-option img {
+            width: 80px;
+            margin-bottom: 20px;
+        }
+
+        .buy-option h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .buy-option a {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .buy-option a:hover {
+            background-color: #388E3C;
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: #111;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .hamburger {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #ff073a;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1001;
+    transition: transform 0.3s ease;
+}
+
+.menu {
+    display: none; /* Initially hidden */
+    position: fixed;
+    bottom: 80px; /* Positioning above the hamburger */
+    right: 20px;
+    background-color: #fff;
+    border: 2px solid #d32f2f;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1002;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+}
+
+.menu ul li {
+    margin: 10px 0;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #d32f2f;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.menu a:hover {
+    color: #ff073a;
+}
+
+/* Popup Style */
+.popup {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 2px solid #d32f2f;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1002;
+}
+
+.popup-header {
+    font-size: 24px;
+    color: #d32f2f;
+    margin-bottom: 10px;
+}
+
+.popup-content {
+    font-size: 18px;
+    color: #666;
+}
+
+.popup-close {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    </style>
+</head>
+<body>
+    <!-- Landing Page -->
+    <div class="landing-page" id="landingPage">
+        <div class="landing-content">
+            <h1>Welcome to Kapal Api</h1>
+            <button class="enter-button" onclick="enterSite()">Enter Site</button>
+        </div>
+    </div>
+
+    <!-- Main Content (Initially Hidden) -->
+    <div class="main-content" id="mainContent">
+        <!-- HEADER -->
+        <div class="header" id="header" data-aos="fade-down">
+            <div class="logo">Kapal Api Coffee</div>
+            <nav>
+                <ul>
+                    <li><a href="#slogan">About</a></li>
+                    <li><a href="#buy">Buy</a></li>
+                    <li><a href="#about">Serving</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- HERO SECTION -->
+        <section class="hero" data-aos="fade-in">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1>Kapal Api Coffee</h1>
+                <p>Aroma dan rasa yang khas, selalu lebih enak.</p>
+                <button class="cta-button" onclick="scrollToSection('buy')">Beli Sekarang</button>
+            </div>
+        </section>
+
+        <!-- SLOGAN SECTION -->
+        <section class="slogan" id="slogan" data-aos="fade-up">
+            <h2>Slogan Kapal Api</h2>
+            <p>Awali pagimu dengan isap kopi dulu le.</p>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section class="about" id="about" data-aos="fade-up">
+            <h2>Tentang Kapal Api</h2>
+            <p>Kapal Api adalah merek kopi ikonik Indonesia yang telah menjadi bagian dari tradisi dan budaya masyarakat sejak tahun 1927. Kami menghadirkan kopi berkualitas tinggi dengan cita rasa yang khas dan aroma yang kuat.</p>
+        </section>
+
+        <!-- PENYAJIAN SECTION -->
+        <section class="penyajian" id="penyajian" data-aos="fade-up">
+            <h2>Cara Penyajian Kapal Api</h2>
+            <p>Untuk mendapatkan cita rasa terbaik dari kopi Kapal Api, ikuti langkah-langkah penyajian berikut:</p>
+            <ol>
+                <li>Siapkan air bersih dan panas, tetapi jangan sampai mendidih.</li>
+                <li>Masukkan kopi Kapal Api sesuai takaran yang diinginkan ke dalam cangkir atau alat penyeduh.</li>
+                <li>Tuangkan air panas ke atas kopi dan biarkan selama 3-5 menit agar rasa dan aroma kopi keluar.</li>
+                <li>Aduk perlahan dan nikmati kopi Anda dengan atau tanpa gula sesuai selera.</li>
+                <li>Sajikan dalam cangkir bersih dan hangat untuk hasil terbaik.</li>
+            </ol>
+        </section>
+        
+        <!-- BUY SECTION -->
+        <section class="buy-section" id="buy" data-aos="fade-up">
+            <h2>Beli Kapal Api</h2>
+            <div class="buy-options">
+                <div class="buy-option" data-aos="zoom-in">
+                    <img src="https://cdn1-production-images-kly.akamaized.net/VTwoCsdQV6f_yrgMwVdtCPFAbUE=/1200x1200/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/1071992/original/001406800_1448945428-Shopee.jpg" alt="Shopee">
+                    <h3>Beli di Shopee</h3>
+                    <a href="https://shopee.co.id/kapalapistore" target="_blank">Beli Sekarang</a>
+                </div>
+                <div class="buy-option" data-aos="zoom-in">
+                    <img src="https://play-lh.googleusercontent.com/BVfL-z6kQFdkg7-8J7Krscp7m6sYv7BuVT1U3wjggB2SXjJeo-IIUbBnAvUzNkjdzqk" alt="Tokopedia">
+                    <h3>Beli di Tokopedia</h3>
+                    <a href="https://www.tokopedia.com/kapalapistore" target="_blank">Beli Sekarang</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer" data-aos="fade-up">
+            <p>&copy; 2024 Kapal Api. @Rama Andhika.</p>
+        </footer>
+    </div>
+
+<!-- Hamburger Menu -->
+<button class="hamburger" onclick="toggleMenu()">☰</button>
+
+<!-- Popup for Credits -->
+<div class="popup" id="popup">
+    <div class="popup-header">Credit</div>
+    <div class="popup-content">Website ini dibuat oleh @Rama Andhika.</div>
+    <button class="popup-close" onclick="closePopup()">Tutup</button>
+</div>
+
+<!-- Menu -->
+<div class="menu" id="menu">
+    <ul>
+        <li><a href="https://wa.me/6282131601149" target="_blank">Contact</a></li>
+        <li><a href="#" onclick="togglePopup()">Credit</a></li>
+    </ul>
+</div>
+
+
+    <!-- AOS Library for Scroll Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1200, // Animation duration
+        });
+
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Add scroll event listener for header background change on scroll
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Function to enter the main site
+        function enterSite() {
+            const landingPage = document.getElementById('landingPage');
+            const mainContent = document.getElementById('mainContent');
+
+            landingPage.style.opacity = '0';
+            setTimeout(() => {
+                landingPage.style.display = 'none';
+                mainContent.style.display = 'block';
+                // Trigger AOS refresh
+                AOS.refresh();
+            }, 500);
+        }
+
+// Toggle menu for hamburger button
+function toggleMenu() {
+    const menu = document.getElementById('menu');
+    menu.style.display = menu.style.display === 'none' || menu.style.display === '' ? 'block' : 'none';
+}
+
+// Function to close the popup
+function closePopup() {
+    const popup = document.getElementById('popup');
+    popup.style.display = 'none';
+}
+
+// Function to show the credit popup
+function togglePopup() {
+    const popup = document.getElementById('popup');
+    popup.style.display = popup.style.display === 'none' || popup.style.display === '' ? 'block' : 'none';
+}
+
+
+        // Link to WhatsApp
+        function contactCreator() {
+            window.open('https://wa.me/6282131601149', '_blank');
+        }
+    </script>
+</body>
+</html>
+
