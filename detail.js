@@ -22,71 +22,41 @@ const scriptProducts = [
   { id: 8, nama: "SC Phising Akun", harga: "Rp. 15.000", deskripsi: "Script untuk melakukan phising akun", gambar: "https://via.placeholder.com/300x200?text=SC+Phising" }
 ];
 
-const pterodactylList = document.getElementById('pterodactyl-list');
-const scriptList = document.getElementById('script-list');
-const categoryFilter = document.getElementById('category-filter');
-const priceFilter = document.getElementById('price-filter');
-const pterodactylTitle = document.getElementById('pterodactyl-title');
-const scriptTitle = document.getElementById('script-title');
+const detailContainer = document.getElementById('detail-container');
 
-function displayProducts(products, list, type) {
-  list.innerHTML = '';
-  products.forEach(product => {
-    const listItem = document.createElement('a');
-    listItem.href = `detail.html?id=${product.id}&type=${type}`; 
-    listItem.classList.add('menu-item');
-    listItem.textContent = `${product.nama} - ${product.harga}`;
-    list.appendChild(listItem);
-  });
-}
-
-function filterProducts() {
-  const selectedCategory = categoryFilter.value;
-  const selectedPrice = priceFilter.value;
-  let filteredPterodactyl = pterodactylProducts;
-  let filteredScript = scriptProducts;
-
-  if (selectedCategory !== 'all') {
-    if (selectedCategory === 'pterodactyl') {
-      filteredScript = [];
-    } else {
-      filteredPterodactyl = [];
-    }
+function showProductDetail(productId, productType) {
+  let product;
+  if (productType === 'pterodactyl') {
+    product = pterodactylProducts.find(p => p.id === productId);
+  } else {
+    product = scriptProducts.find(p => p.id === productId);
   }
 
-  if (selectedPrice !== 'all') {
-    filteredPterodactyl = filteredPterodactyl.filter(product => {
-      const price = parseInt(product.harga.replace(/[^0-9]/g, ''));
-      if (selectedPrice === 'under5k') {
-        return price < 5000;
-      } else if (selectedPrice === '5k-10k') {
-        return price >= 5000 && price <= 10000;
-      } else {
-        return price > 10000;
-      }
-    });
+  const now = new Date();
+  const options = {
+    year: 'numeric', month: 'long', day: 'numeric',
+    hour: 'numeric', minute: 'numeric', second: 'numeric',
+    timeZoneName: 'short'
+  };
+  const formattedDateTime = now.toLocaleDateString('id-ID', options);
+  const whatsappMessage = `Halo Ryu\nSaya ingin membeli\nProduk: ${product.nama}\nHarga: ${product.harga}\nTanggal & Jam: ${formattedDateTime}`;
 
-    filteredScript = filteredScript.filter(product => {
-      const price = parseInt(product.harga.replace(/[^0-9]/g, ''));
-      if (selectedPrice === 'under5k') {
-        return price < 5000;
-      } else if (selectedPrice === '5k-10k') {
-        return price >= 5000 && price <= 10000;
-      } else {
-        return price > 10000;
-      }
-    });
-  }
-
-  pterodactylTitle.style.display = filteredPterodactyl.length > 0 ? 'block' : 'none';
-  scriptTitle.style.display = filteredScript.length > 0 ? 'block' : 'none';
-
-  displayProducts(filteredPterodactyl, pterodactylList, 'pterodactyl');
-  displayProducts(filteredScript, scriptList, 'script');
+  detailContainer.innerHTML = `
+    <div class="panel-detail-item show">
+      <h3>${product.nama}</h3>
+      <img src="${product.gambar}" alt="${product.nama}">
+      <p>${product.deskripsi}</p>
+      <p>Harga: ${product.harga}</p>
+      <a href="https://wa.me/62856078064701?text=${encodeURIComponent(whatsappMessage)}" target="_blank">
+        <button>Pesan Sekarang</button>
+      </a>
+    </div>
+  `;
 }
 
-categoryFilter.addEventListener('change', filterProducts);
-priceFilter.addEventListener('change', filterProducts);
+// Ambil data produk dari URL
+const urlParams = new URLSearchParams(window.location.search);
+const productId = parseInt(urlParams.get('id'));
+const productType = urlParams.get('type');
 
-// Panggil fungsi filterProducts() saat halaman dimuat
-filterProducts(); 
+showProductDetail(productId, productType);
