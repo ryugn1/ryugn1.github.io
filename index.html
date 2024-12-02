@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>List Jualan Ryu</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <h1>LIST JUALAN RYU</h1>
+    </header>
+
+    <main>
+      <div class="container">
+        <div class="list-script">
+          <h2>Filter Produk</h2>
+          <div class="filter-container">
+            <label for="category-filter">Kategori:</label>
+            <select id="category-filter">
+              <option value="all">Semua</option>
+              <option value="pterodactyl">Panel Pterodactyl</option>
+              <option value="script">Script Bot WA</option>
+            </select>
+          </div>
+          <div class="filter-container">
+            <label for="price-filter">Harga:</label>
+            <select id="price-filter">
+              <option value="all">Semua</option>
+              <option value="under5k">Di bawah Rp. 5.000</option>
+              <option value="5k-10k">Rp. 5.000 - Rp. 10.000</option>
+              <option value="above10k">Di atas Rp. 10.000</option>
+            </select>
+          </div>
+          <div class="product-list">
+            <h2 id="pterodactyl-title">Panel Pterodactyl</h2>
+            <ul id="pterodactyl-list"></ul>
+            <h2 id="script-title">Script Bot WA</h2>
+            <ul id="script-list"></ul>
+          </div>
+        </div>
+
+        <div class="panel-detail">
+          <div id="detail-container">
+            <p class="placeholder-text">Pilih produk untuk melihat detailnya.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2023 Ryu. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
