@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pusat Kendali</title>
+<script>
+async function checkMaintenance() {
+try {
+const response = await fetch('config.json');
+const config = await response.json();
+
+if (config.maintenance) {
+window.location.href = 'error.html';
+} else {
+window.location.href = 'utama.html';
+}
+} catch (error) {
+console.error('Gagal memuat konfigurasi:', error);
+alert('Terjadi masalah saat memuat konfigurasi.');
+}
+}
+
+window.onload = checkMaintenance;
+</script>
+</head>
+<body>
+<h1>Memuat Halaman...</h1>
+</body>
+</html>
