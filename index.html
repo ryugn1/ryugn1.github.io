@@ -1,41 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pusat Kendali</title>
-  <script>
-    // Fungsi untuk memuat file konfigurasi dan menentukan halaman yang ditampilkan
-    async function loadConfig() {
-      try {
-        // Memuat file config.json
-        const response = await fetch('config.json');
-        if (!response.ok) {
-          throw new Error('Gagal memuat config.json');
-        }
-        const config = await response.json();
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengalihan Halaman</title>
+    <script>
+        // Variabel untuk status pemeliharaan. Ubah nilainya sesuai kebutuhan.
+        const maintenance = true; // true untuk pemeliharaan, false untuk normal
 
-        // Redirect berdasarkan status maintenance
-        if (config.maintenance) {
-          window.location.href = 'error.html'; // Arahkan ke error.html
+        // Fungsi untuk mengalihkan halaman
+        function redirect() {
+            if (maintenance) {
+                window.location.href = "error.html"; // Alihkan ke error.html jika pemeliharaan
+            } else {
+                window.location.href = "utama.html"; // Alihkan ke utama.html jika normal
+            }
+        }
+
+        // Jalankan fungsi pengalihan saat halaman dimuat
+        window.onload = redirect;
+
+        // Opsi tambahan: tampilkan pesan singkat sebelum pengalihan (opsional)
+        if (maintenance) {
+          document.write("Situs sedang dalam pemeliharaan. Anda akan dialihkan...");
         } else {
-          window.location.href = 'utama.html'; // Arahkan ke utama.html
+          document.write("Situs siap digunakan. Anda akan dialihkan...");
         }
-      } catch (error) {
-        // Jika terjadi kesalahan dalam memuat config.json
-        document.body.innerHTML = `
-          <h1>Error!</h1>
-          <p>Gagal memuat konfigurasi.</p>
-        `;
-        console.error('Error:', error);
-      }
-    }
-
-    // Jalankan fungsi saat halaman dimuat
-    window.onload = loadConfig;
-  </script>
+    </script>
 </head>
 <body>
-  <h1>Memuat...</h1>
+    <noscript>
+        <p>JavaScript dinonaktifkan. Silakan aktifkan JavaScript untuk melanjutkan.</p>
+        <meta http-equiv="refresh" content="0; url=error.html"> </noscript>
 </body>
 </html>
