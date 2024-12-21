@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pusat Kendali</title>
+<script>
+async function loadConfig() {
+try {
+const response = await fetch('config.json');
+const config = await response.json();
+
+if (config.maintenance) {
+window.location.href = 'error.html';
+} else {
+window.location.href = 'utama.html';
+}
+} catch (error) {
+document.body.innerHTML = `
+<h1>Error!</h1>
+<p>Gagal memuat konfigurasi. Silakan coba lagi nanti.</p>
+`;
+console.error('Error:', error);
+}
+}
+
+window.onload = loadConfig;
+</script>
+</head>
+<body>
+<h1>Memuat...</h1>
+</body>
+</html>
