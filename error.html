@@ -87,5 +87,12 @@ font-size: 1rem;
 <p>We're currently improving our website to serve you better. <br> Please check back later. Thanks for your patience!</p>
 <a href="mailto:admin@example.com">Contact Support</a>
 </div>
+
+<script>
+  window.onload = function() {
+document.cookie = "redirected=true; path=/"; // Set cookie
+window.location.replace("https://products.ryu-web.site"); // Redirect final
+};
+</script>
 </body>
 </html>
