@@ -1,33 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pusat Kendali</title>
-<script>
-async function loadConfig() {
-try {
-const response = await fetch('config.json');
-const config = await response.json();
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pusat Kendali</title>
+  <script>
+    // Fungsi untuk memuat file konfigurasi dan menentukan halaman yang ditampilkan
+    async function loadConfig() {
+      try {
+        // Memuat file config.json
+        const response = await fetch('config.json');
+        if (!response.ok) {
+          throw new Error('Gagal memuat config.json');
+        }
+        const config = await response.json();
 
-if (config.maintenance) {
-window.location.href = 'error.html';
-} else {
-window.location.href = 'utama.html';
-}
-} catch (error) {
-document.body.innerHTML = `
-<h1>Error!</h1>
-<p>Gagal memuat konfigurasi. Silakan coba lagi nanti.</p>
-`;
-console.error('Error:', error);
-}
-}
+        // Redirect berdasarkan status maintenance
+        if (config.maintenance) {
+          window.location.href = 'error.html'; // Arahkan ke error.html
+        } else {
+          window.location.href = 'utama.html'; // Arahkan ke utama.html
+        }
+      } catch (error) {
+        // Jika terjadi kesalahan dalam memuat config.json
+        document.body.innerHTML = `
+          <h1>Error!</h1>
+          <p>Gagal memuat konfigurasi. Silakan coba lagi nanti.</p>
+        `;
+        console.error('Error:', error);
+      }
+    }
 
-window.onload = loadConfig;
-</script>
+    // Jalankan fungsi saat halaman dimuat
+    window.onload = loadConfig;
+  </script>
 </head>
 <body>
-<h1>Memuat...</h1>
+  <h1>Memuat...</h1>
 </body>
 </html>
