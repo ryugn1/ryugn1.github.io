@@ -10,28 +10,27 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.maintenance) {
-                        window.location.href = "error.html";
+                        // Ganti dengan URL utama Anda
+                        window.location.replace("https://products.ryu-web.site/error.html");
                     } else {
-                        window.location.href = "utama.html";
+                        // Ganti dengan URL utama Anda
+                        window.location.replace("https://products.ryu-web.site/utama.html");
                     }
                 })
                 .catch(error => {
                     console.error('Error fetching status:', error);
-                    // Tangani error, misalnya dengan mengalihkan ke halaman default
-                    window.location.href = "utama.html";
+                    window.location.replace("https://products.ryu-web.site/utama.html");
                 });
         }
 
-        // Pengecekan pertama saat halaman dimuat
         checkMaintenance();
-
-        // Tidak perlu setInterval lagi karena status.json diupdate oleh GitHub Actions
-        document.write("Sedang memeriksa status situs...");
+                document.write("Sedang memeriksa status situs...");
     </script>
 </head>
 <body>
     <noscript>
         <p>JavaScript dinonaktifkan. Silakan aktifkan JavaScript untuk melanjutkan.</p>
+        <meta http-equiv="refresh" content="0; url=https://products.ryu-web.site">
     </noscript>
 </body>
 </html>
