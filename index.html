@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>®️ Ryu Store - Digital Marketplace</title>
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Poppins', sans-serif;
+}
+
+body {
+background: linear-gradient(135deg, #2b2b2b, #4e4e4e, #1e1e1e);
+background-size: 400% 400%;
+animation: gradientBackground 10s ease infinite, pulseBackground 3s ease-in-out infinite;
+color: #ffffff;
+padding: 20px;
+line-height: 1.6;
+transition: background 0.5s ease;
+}
+
+@keyframes gradientBackground {
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
+}
+
+@keyframes pulseBackground {
+0%, 100% { background-color: rgba(0, 0, 0, 0.1); }
+50% { background-color: rgba(0, 0, 0, 0.2); }
+}
+
+.container {
+max-width: 800px;
+margin: 0 auto;
+background: #1e1e1e;
+padding: 30px;
+border-radius: 15px;
+box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+animation: fadeIn 1s ease-in-out;
+transform: translateY(20px);
+opacity: 0;
+}
+
+.container.visible {
+opacity: 1;
+transform: translateY(0);
+}
+
+.item {
+flex: 1 1 200px;
+}
+
+h1 {
+text-align: center;
+color: #ffffff;
+margin-bottom: 40px;
+font-size: 32px;
+letter-spacing: 1.5px;
+text-shadow: 0px 0px 10px #ffffff;
+animation: slideInFromTop 1s ease-out;
+}
+
+@keyframes slideInFromTop {
+from {
+transform: translateY(-20px);
+opacity: 0;
+}
+to {
+transform: translateY(0);
+opacity: 1;
+}
+}
+
+.product-section {
+margin-bottom: 40px;
+padding: 25px;
+background: #2e2e2e;
+border-radius: 10px;
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+animation: slideUp 0.8s ease-in-out;
+}
+
+@keyframes slideUp {
+from {
+transform: translateY(20px);
+opacity: 0;
+}
+to {
+transform: translateY(0);
+opacity: 1;
+}
+}
+
+h2 {
+color: #ffffff;
+margin-bottom: 20px;
+font-size: 24px;
+font-weight: bold;
+text-shadow: 0px 0px 5px #ffffff;
+animation: fadeInText 1s ease-out;
+}
+
+@keyframes fadeInText {
+from {
+opacity: 0;
+}
+to {
+opacity: 1;
+}
+}
+
+.product-list {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+gap: 20px;
+opacity: 0;
+animation: fadeIn 1.5s forwards;
+}
+
+.product-item {
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 20px;
+background: #3e3e3e;
+border-radius: 15px;
+border: 2px solid #f0f0f0;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+overflow: hidden;
+animation: zoomIn 0.8s ease-out;
+}
+
+@keyframes zoomIn {
+from {
+transform: scale(0.9);
+opacity: 0;
+}
+to {
+transform: scale(1);
+opacity: 1;
+}
+}
+
+.product-item:hover {
+transform: scale(1.05);
+background-color: #4e4e4e;
+box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+}
+
+.product-item img {
+border-radius: 10px;
+transition: transform 0.3s ease;
+}
+
+.product-item:hover img {
+transform: scale(1.1);
+}
+
+.product-item label {
+margin-top: 10px;
+font-size: 16px;
+font-weight: bold;
+text-align: center;
+color: #f0f0f0;
+transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.product-item:hover label {
+color: #ff9900;
+transform: translateY(-5px);
+}
+
+.product-item .price {
+margin-top: auto;
+font-size: 18px;
+font-weight: bold;
+color: #f0f0f0;
+transition: color 0.3s ease;
+}
+
+.product-item:hover .price {
+color: #ff9900;
+}
+
+.product-item input[type="checkbox"]:checked + label {
+font-weight: bold;
+color: #f0f0f0;
+}
+
+.price {
+color: #f0f0f0;
+font-weight: bold;
+margin-left: auto;
+text-shadow: 0px 0px 5px #f0f0f0;
+}
+
+.payment-section {
+margin-top: 30px;
+display: none;
+opacity: 0;
+transform: translateY(20px);
+transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.payment-section.show {
+display: block;
+opacity: 1;
+transform: translateY(0);
+}
+
+.payment-options {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+gap: 15px;
+}
+
+.payment-option {
+padding: 15px;
+border: 1px solid #f0f0f0;
+border-radius: 15px;
+cursor: pointer;
+text-align: center;
+background: #2e2e2e;
+transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.payment-option:hover {
+background: #4e4e4e;
+transform: translateY(-5px) scale(1.05);
+box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.payment-option.selected {
+background: #f0f0f0;
+color: #000000;
+border-color: #f0f0f0;
+}
+
+.button {
+display: block;
+width: 100%;
+padding: 15px;
+background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+color: #000000;
+border: none;
+border-radius: 25px;
+cursor: pointer;
+font-size: 18px;
+font-weight: bold;
+margin-top: 30px;
+transition: background 0.3s, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.button:hover {
+background: #d4d4d4;
+transform: translateY(-3px);
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+#total {
+text-align: right;
+font-size: 22px;
+margin-top: 20px;
+font-weight: bold;
+color: #ffffff;
+text-shadow: 0px 0px 5px #f0f0f0;
+animation: fadeInText 1s ease-out;
+}
+
+@media (max-width: 768px) {
+.product-list {
+grid-template-columns: 1fr 1fr;
+}
+}
+
+@media (max-width: 480px) {
+.product-list {
+grid-template-columns: 1fr;
+}
+}
+
+@media (min-width: 769px) {
+.header {
+font-size: 18px;
+}
+}
+
+@keyframes fadeIn {
+from {
+opacity: 0;
+}
+to {
+opacity: 1;
+}
+}
+
+.loading {
+background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+background-size: 200% 100%;
+animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+0% { background-position: -200% 0; }
+100% { background-position: 200% 0; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Ryu Store</h1>
+
+<button class="button" onclick="toggleSection('panel-section')">List Panel</button>
+<div class="product-section" id="panel-section" style="display: none;">
+<h2>PRICE JOIN ADMIN</h2>
+<div class="product-list">
+<div class="product-item">
+<input type="checkbox" id="reseller" data-price="5000" onchange="updateTotal()">
+<label for="reseller">Reseller Panel</label>
+<span class="price">Rp 5.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="admin-panel" data-price="10000" onchange="updateTotal()">
+<label for="admin-panel">Admin Panel</label>
+<span class="price">Rp 10.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="pt-panel" data-price="15000" onchange="updateTotal()">
+<label for="pt-panel">PT Panel</label>
+<span class="price">Rp 15.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="own-panel" data-price="20000" onchange="updateTotal()">
+<label for="own-panel">Own Panel</label>
+<span class="price">Rp 20.000</span>
+</div>
+</div>
+</div>
+
+<button class="button" onclick="toggleSection('public-section')">List Public</button>
+<div class="product-section" id="public-section" style="display: none;">
+<h2>PRICE PANEL PUBLIC</h2>
+<div class="product-list">
+<div class="product-item">
+<input type="checkbox" id="ram1gb" data-price="1000" onchange="updateTotal()">
+<label for="ram1gb">RAM 1GB</label>
+<span class="price">Rp 1.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="ram2gb" data-price="2000" onchange="updateTotal()">
+<label for="ram2gb">RAM 2GB</label>
+<span class="price">Rp 2.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="ram3gb" data-price="3000" onchange="updateTotal()">
+<label for="ram3gb">RAM 3GB</label>
+<span class="price">Rp 3.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="ram4gb" data-price="4000" onchange="updateTotal()">
+<label for="ram4gb">RAM 4GB</label>
+<span class="price">Rp 4.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="ram5gb" data-price="5000" onchange="updateTotal()">
+<label for="ram5gb">RAM 5GB</label>
+<span class="price">Rp 5.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="ram-unli" data-price="6000" onchange="updateTotal()">
+<label for="ram-unli">RAM UNLI</label>
+<span class="price">Rp 6.000</span>
+</div>
+</div>
+</div>
+
+<button class="button" onclick="toggleSection('vip-section')">List Script VIP</button>
+<div class="product-section" id="vip-section" style="display: none;">
+<h2>PRICE SCRIPT VIP</h2>
+<div class="product-list">
+<div class="product-item">
+<input type="checkbox" id="sc-jaga-grup" data-price="5000" onchange="updateTotal()">
+<label for="sc-jaga-grup">SC JAGA GB</label>
+<span class="price">Rp 5.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="sc-otp-lock-wa" data-price="10000" onchange="updateTotal()">
+<label for="sc-otp-lock-wa">SC OTP LOCK WA</label>
+<span class="price">Rp 10.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="sc-cpanel" data-price="15000" onchange="updateTotal()">
+<label for="sc-cpanel">SC CPANEL</label>
+<span class="price">Rp 15.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="sc-password-finder" data-price="15000" onchange="updateTotal()">
+<label for="sc-password-finder">SC PASSWORD FINDER</label>
+<span class="price">Rp 15.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="sc-rekap" data-price="20000" onchange="updateTotal()">
+<label for="sc-rekap">SC REKAP</label>
+<span class="price">Rp 20.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="sc-smm-panel" data-price="25000" onchange="updateTotal()">
+<label for="sc-smm-panel">SC SMM PANEL</label>
+<span class="price">Rp 25.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="sc-topup-otomatis" data-price="25000" onchange="updateTotal()">
+<label for="sc-topup-otomatis">SC TOPUP OTOMATIS</label>
+<span class="price">Rp 25.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="sc-ddos-website" data-price="30000" onchange="updateTotal()">
+<label for="sc-ddos-website">SC DDOS</label>
+<span class="price">Rp 30.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="sc-bug" data-price="30000" onchange="updateTotal()">
+<label for="sc-bug">SC BUG</label>
+<span class="price">Rp 30.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="sc-full-fitur" data-price="40000" onchange="updateTotal()">
+<label for="sc-full-fitur">SC FULL FITUR (SUPPORT CH)</label>
+<span class="price">Rp 40.000</span>
+</div>
+</div>
+</div>
+
+<button class="button" onclick="toggleSection('jasa1-section')">List Jasa V1</button>
+<div class="product-section" id="jasa1-section" style="display: none;">
+<h2>PRICE JASA V1</h2>
+<div class="product-list" id="jasa1-price-list">
+<div class="product-item">
+<input type="checkbox" id="jasa-sewa-bot" data-price="5000" onchange="updateTotal()">
+<label for="jasa-sewa-bot">JASA SEWA BOT</label>
+<span class="price">Rp 5.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="jasa-del-fitur-sc" data-price="5000" onchange="updateTotal()">
+<label for="jasa-del-fitur-sc">JASA DEL FITUR SC</label>
+<span class="price">Rp 5.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="jasa-jadibot" data-price="5000" onchange="updateTotal()">
+<label for="jasa-jadibot">JASA JADIBOT</label>
+<span class="price">Rp 5.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="jasa-pasang-bot" data-price="7000" onchange="updateTotal()">
+<label for="jasa-pasang-bot">JASA PASANG BOT</label>
+<span class="price">Rp 7.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="jasa-rename-sc" data-price="10000" onchange="updateTotal()">
+<label for="jasa-rename-sc">JASA RENAME SC</label>
+<span class="price">Rp 10.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="jasa-fix-fitur-sc" data-price="10000" onchange="updateTotal()">
+<label for="jasa-fix-fitur-sc">JASA FIX FITUR SC</label>
+<span class="price">Rp 10.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="jasa-enc-sc" data-price="10000" onchange="updateTotal()">
+<label for="jasa-enc-sc">JASA ENC SC</label>
+<span class="price">Rp 10.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="jasa-enc-hard-sc" data-price="10000" onchange="updateTotal()">
+<label for="jasa-enc-hard-sc">JASA ENC HARD SC</label>
+<span class="price">Rp 15.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="jasa-upgrade-tampilan-sc" data-price="15000" onchange="updateTotal()">
+<label for="jasa-upgrade-tampilan-sc">JASA UPGRADE TAMPILAN SC</label>
+<span class="price">Rp 15.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="jasa-rename-sc-all" data-price="15000" onchange="updateTotal()">
+<label for="jasa-rename-sc-all">JASA RENAME SC ALL</label>
+<span class="price">Rp 15.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="jasa-add-fitur-sc" data-price="15000" onchange="updateTotal()">
+<label for="jasa-add-fitur-sc">JASA ADD FITUR SC</label>
+<span class="price">Rp 15.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="jasa-bikin-func" data-price="20000" onchange="updateTotal()">
+<label for="jasa-bikin-func">JASA BIKIN FUNC</label>
+<span class="price">Rp 20.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="jasa-bikin-bot" data-price="30000" onchange="updateTotal()">
+<label for="jasa-bikin-bot">JASA BIKIN BOT</label>
+<span class="price">Rp 30.000</span>
+</div>
+</div>
+</div>
+
+<button class="button" onclick="toggleSection('jasa2-section')">List Jasa V2</button>
+<div class="product-section" id="jasa2-section" style="display: none;">
+<h2>PRICE JASA V2</h2>
+<div class="product-list" id="jasa2-price-list">
+<div class="product-item">
+<input type="checkbox" id="jasa-post" data-price="5000" onchange="updateTotal()">
+<label for="jasa-post">JASA POST</label>
+<span class="price">Rp 5.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="jasa-ambil-apikey-panel" data-price="5000" onchange="updateTotal()">
+<label for="jasa-ambil-apikey-panel">JASA AMBIL APIKEY PANEL</label>
+<span class="price">Rp 5.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="jasa-pasang-apikey-panel" data-price="5000" onchange="updateTotal()">
+<label for="jasa-pasang-apikey-panel">JASA PASANG APIKEY PANEL</label>
+<span class="price">Rp 5.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="jasa-kudeta-panel" data-price="10000" onchange="updateTotal()">
+<label for="jasa-kudeta-panel">JASA KUDETA PANEL</label>
+<span class="price">Rp 10.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="jasa-ddos-panel" data-price="10000" onchange="updateTotal()">
+<label for="jasa-ddos-panel">JASA DDOS PANEL</label>
+<span class="price">Rp 10.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="jasa-hb-panel" data-price="10000" onchange="updateTotal()">
+<label for="jasa-hb-panel">JASA HB PANEL</label>
+<span class="price">Rp 10.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="jasa-instal-panel" data-price="10000" onchange="updateTotal()">
+<label for="jasa-instal-panel">JASA INSTAL PANEL</label>
+<span class="price">Rp 10.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="jasa-instal-wings" data-price="10000" onchange="updateTotal()">
+<label for="jasa-instal-wings">JASA INSTAL WINGS</label>
+<span class="price">Rp 10.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="jasa-install-egg" data-price="10000" onchange="updateTotal()">
+<label for="jasa-install-egg">JASA INSTALL EGG</label>
+<span class="price">Rp 10.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="jasa-fix-node-merah" data-price="15000" onchange="updateTotal()">
+<label for="jasa-fix-node-merah">JASA FIX NODE MERAH</label>
+<span class="price">Rp 15.000</span>
+</div>
+</div>
+</div>
+
+<button class="button" onclick="toggleSection('murid-section')">List Berkualitas</button>
+<div class="product-section" id="murid-section" style="display: none;">
+<h2>PRICE SPESIAL</h2>
+<div class="product-list" id="murid-price-list">
+<div class="product-item">
+<input type="checkbox" id="tutorial-unban-wa" data-price="10000" onchange="updateTotal()">
+<label for="tutorial-unban-wa">TUTORIAL UNBAN WA</label>
+<span class="price">Rp 10.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="metode-unban-wa" data-price="15000" onchange="updateTotal()">
+<label for="metode-unban-wa">METODE UNBAN WA</label>
+<span class="price">Rp 15.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="tutorial-ban-wa" data-price="15000" onchange="updateTotal()">
+<label for="tutorial-ban-wa">TUTORIAL BAN WA</label>
+<span class="price">Rp 15.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="metode-ban-wa" data-price="20000" onchange="updateTotal()">
+<label for="metode-ban-wa">METODE BAN WA</label>
+<span class="price">Rp 20.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="murid-ban-wa" data-price="25000" onchange="updateTotal()">
+<label for="murid-ban-wa">MURID BAN WA</label>
+<span class="price">Rp 25.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="partner-ident" data-price="40000" onchange="updateTotal()">
+<label for="partner-ident">PARTNER IDENT</label>
+<span class="price">Rp 40.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="partner-no-ident" data-price="60000" onchange="updateTotal()">
+<label for="partner-no-ident">PARTNER NO IDENT</label>
+<span class="price">Rp 60.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="partner-pribadi-ident" data-price="65000" onchange="updateTotal()">
+<label for="partner-pribadi-ident">PARTNER PRIBADI IDENT</label>
+<span class="price">Rp 65.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="partner-pribadi-no-ident" data-price="85000" onchange="updateTotal()">
+<label for="partner-pribadi-no-ident">PARTNER PRIBADI NO IDENT</label>
+<span class="price">Rp 85.000</span>
+</div>
+</div>
+</div>
+
+<button class="button" onclick="toggleSection('nokwa-section')">List Nokos WhatsApp</button>
+<div class="product-section" id="nokwa-section" style="display: none;">
+<h2>PRICE NOKOS WA</h2>
+<div class="product-list" id="nokos-price-list">
+<div class="product-item">
+<input type="checkbox" id="nokos-indonesia" data-price="5000" onchange="updateTotal()">
+<label for="nokos-indonesia">Indonesia</label>
+<span class="price">Rp 5.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="nokos-thailand" data-price="6000" onchange="updateTotal()">
+<label for="nokos-thailand">Thailand</label>
+<span class="price">Rp 6.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="nokos-malaysia" data-price="7000" onchange="updateTotal()">
+<label for="nokos-malaysia">Malaysia</label>
+<span class="price">Rp 7.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="nokos-rusia" data-price="7000" onchange="updateTotal()">
+<label for="nokos-rusia">Rusia</label>
+<span class="price">Rp 7.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="nokos-china" data-price="11000" onchange="updateTotal()">
+<label for="nokos-china">China</label>
+<span class="price">Rp 11.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="nokos-india" data-price="11000" onchange="updateTotal()">
+<label for="nokos-india">India</label>
+<span class="price">Rp 11.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="nokos-belanda" data-price="11000" onchange="updateTotal()">
+<label for="nokos-belanda">Belanda</label>
+<span class="price">Rp 11.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="nokos-usa" data-price="18000" onchange="updateTotal()">
+<label for="nokos-usa">USA</label>
+<span class="price">Rp 18.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="nokos-prancis" data-price="29000" onchange="updateTotal()">
+<label for="nokos-prancis">Prancis</label>
+<span class="price">Rp 29.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="nokos-australia" data-price="73000" onchange="updateTotal()">
+<label for="nokos-australia">Australia</label>
+<span class="price">Rp 73.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="nokos-turki" data-price="111000" onchange="updateTotal()">
+<label for="nokos-turki">Turki</label>
+<span class="price">Rp 111.000</span>
+</div>
+</div>
+</div>
+
+<button class="button" onclick="toggleSection('noktel-section')">List Nokos Telegram</button>
+<div class="product-section" id="noktel-section" style="display: none;">
+<h2>PRICE NOKOS TELE</h2>
+<div class="product-list" id="nokos-price-list">
+<div class="product-item">
+<input type="checkbox" id="nokos-indonesia" data-price="5000" onchange="updateTotal()">
+<label for="nokos-indonesia">Indonesia</label>
+<span class="price">Rp 5.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="nokos-china" data-price="6000" onchange="updateTotal()">
+<label for="nokos-china">China</label>
+<span class="price">Rp 6.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="nokos-usa" data-price="8000" onchange="updateTotal()">
+<label for="nokos-usa">USA</label>
+<span class="price">Rp 8.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="nokos-malaysia" data-price="10000" onchange="updateTotal()">
+<label for="nokos-malaysia">Malaysia</label>
+<span class="price">Rp 10.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="nokos-india" data-price="11000" onchange="updateTotal()">
+<label for="nokos-india">India</label>
+<span class="price">Rp 11.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="nokos-thailand" data-price="13000" onchange="updateTotal()">
+<label for="nokos-thailand">Thailand</label>
+<span class="price">Rp 13.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="nokos-rusia" data-price="21000" onchange="updateTotal()">
+<label for="nokos-rusia">Rusia</label>
+<span class="price">Rp 21.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="nokos-netherlands" data-price="23000" onchange="updateTotal()">
+<label for="nokos-netherlands">Netherlands</label>
+<span class="price">Rp 23.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="nokos-turkey" data-price="23000" onchange="updateTotal()">
+<label for="nokos-turkey">Turkey</label>
+<span class="price">Rp 23.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="nokos-prancis" data-price="42000" onchange="updateTotal()">
+<label for="nokos-prancis">Prancis</label>
+<span class="price">Rp 42.000</span>
+</div>
+<div class="product-item">
+<input type="checkbox" id="nokos-australia" data-price="58000" onchange="updateTotal()">
+<label for="nokos-australia">Australia</label>
+<span class="price">Rp 58.000</span>
+</div>
+</div>
+</div>
+
+<div id="total">Total: Rp 0</div>
+<button class="button" onclick="showPayment()">Selanjutnya</button>
+
+<div class="payment-section" id="payment-section">
+<h2>Pilih Metode Pembayaran</h2>
+<div class="payment-options">
+<div class="payment-option" onclick="selectPayment(this, 'Dana')">Dana</div>
+<div class="payment-option" onclick="selectPayment(this, 'Gopay')">Gopay</div>
+<div class="payment-option" onclick="selectPayment(this, 'OVO')">OVO</div>
+<div class="payment-option" onclick="selectPayment(this, 'QRIS')">QRIS</div>
+</div>
+<button class="button" onclick="checkout()">Bayar Sekarang</button>
+</div>
+</div>
+
+<script>
+const wa = '6285607806470';
+
+window.addEventListener('DOMContentLoaded', (event) => {
+document.querySelector('.container').classList.add('visible');
+});
+
+function toggleSection(sectionId) {
+const allSections = document.querySelectorAll('.product-section');
+allSections.forEach(section => {
+if (section.id !== sectionId) {
+section.style.display = 'none';
+}
+});
+
+const section = document.getElementById(sectionId);
+section.style.display = section.style.display === 'none' ? 'block' : 'none';
+}
+
+let selectedPayment = '';
+let total = 0;
+
+function updateTotal() {
+total = 0;
+document.querySelectorAll('input[type="checkbox"]:checked').forEach(item => {
+total += parseInt(item.dataset.price);
+});
+document.getElementById('total').textContent = `Total: Rp ${total.toLocaleString()}`;
+}
+
+function showPayment() {
+if (total > 0) {
+const paymentSection = document.getElementById('payment-section');
+paymentSection.classList.add('show');
+} else {
+alert('Pilih minimal satu produk terlebih dahulu!');
+}
+}
+
+function selectPayment(element, method) {
+document.querySelectorAll('.payment-option').forEach(opt => {
+opt.classList.remove('selected');
+});
+element.classList.add('selected');
+selectedPayment = method;
+}
+
+function checkout() {
+if (!selectedPayment) {
+alert('Pilih metode pembayaran terlebih dahulu!');
+return;
+}
+
+let message = "Halo admin Ryu\nsaya ingin membeli produk nih\n\nList produk:\n";
+document.querySelectorAll('input[type="checkbox"]:checked').forEach(item => {
+const label = item.nextElementSibling.textContent;
+const price = parseInt(item.dataset.price);
+message += `* ${label} - Rp ${price.toLocaleString()}\n`;
+});
+message += `\nPayment: ${selectedPayment}\n`;
+message += `Total: Rp ${total.toLocaleString()}`;
+
+const waLink = `https://wa.me/${wa}?text=${encodeURIComponent(message)}`;
+window.location.href = waLink;
+}
+</script>
+</body>
+</html>
