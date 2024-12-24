@@ -354,13 +354,17 @@ animation: fadeInText 1s ease-out;
 
 @keyframes loading { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
 .header {
-display: flex;
-align-items: center;
+  display: flex;
+  align-items: center;
 }
+
 .header img {
-margin-left: 20px;
-width: 100px; /* Sesuaikan ukuran gambar */
-}
+  margin-left: 20px;
+  width: 100px; /* Sesuaikan ukuran gambar */
+  height: 100px; /* Menjaga gambar tetap berbentuk lingkaran */
+  border-radius: 50%; /* Membuat gambar menjadi lingkaran */
+  object-fit: cover; /* Menjaga gambar agar tidak terdistorsi */
+ }
 </style>
 </head>
 <body>
